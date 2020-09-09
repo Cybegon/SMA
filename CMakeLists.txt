@@ -25,6 +25,10 @@ file(GLOB_RECURSE SMA_HEADERS   "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
 file(GLOB_RECURSE SMA_SOURCE    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
 
 set(${PROJECT_NAME}_FILES ${SMA_SOURCE} ${SMA_HEADERS})
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/libraries/)
+
+configure_file(${CMAKE_SOURCE_DIR}/cmake/Config.cmake ${PROJECT_SOURCE_DIR}/libraries/Config.cmake COPYONLY)
+
 
 if(${SMA_STATIC} AND ${SMA_SHARED})
     add_library(objlib OBJECT ${${PROJECT_NAME}_FILES})
