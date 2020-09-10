@@ -21,14 +21,21 @@ include(${CMAKE_SOURCE_DIR}/cmake/Config.cmake)
 sma_set_option(SMA_STATIC TRUE  BOOL "compile a static library")
 sma_set_option(SMA_SHARED TRUE  BOOL "compile a shared library")
 
-file(GLOB_RECURSE SMA_HEADERS   "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
-file(GLOB_RECURSE SMA_SOURCE    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
+file(GLOB_RECURSE SMA_PUBLIC_HEADERS    "${CMAKE_CURRENT_SOURCE_DIR}/src/public/*.h")
+file(GLOB_RECURSE SMA_HEADERS           "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
+file(GLOB_RECURSE SMA_SOURCE            "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
+
+include_directories(${CMAKE_SOURCE_DIR}/src/public)
 
 set(${PROJECT_NAME}_FILES ${SMA_SOURCE} ${SMA_HEADERS})
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/libraries/)
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/Config.cmake ${PROJECT_SOURCE_DIR}/libraries/Config.cmake COPYONLY)
 
+foreach(HEADER ${SMA_PUBLIC_HEADERS})
+    get_filename_component(FILENAME ${HEADER} NAME CACHE FORCE)
+    configure_file(${HEADER} ${PROJECT_SOURCE_DIR}/libraries/include/${FILENAME} COPYONLY)
+endforeach()
 
 if(${SMA_STATIC} AND ${SMA_SHARED})
     add_library(objlib OBJECT ${${PROJECT_NAME}_FILES})
