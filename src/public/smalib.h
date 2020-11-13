@@ -1,14 +1,19 @@
-#ifndef SDA_LIB_HPP
-#define SDA_LIB_HPP
+#ifndef SMA_LIB_HPP
+#define SMA_LIB_HPP
 
 #include "datatypes.h"
 
 #ifdef __cplusplus
+#   include <cstdio>
 #   define POINTER_CAST(TYPE, POINTER) reinterpret_cast<TYPE>(POINTER)
 #else
+#   include <stdio.h>
 #   define POINTER_CAST(TYPE, POINTER) (TYPE) POINTER
 #endif
 
-POINTER move(POINTER ptr, offset _offset);
+#define SMA_PRINT(...) printf(__VA_ARGS__)
 
-#endif // SDA_LIB_HPP
+POINTER moveRight( POINTER ptr, dsize offset );
+POINTER moveLeft( POINTER ptr, dsize offset );
+
+#endif // SMA_LIB_HPP

@@ -2,21 +2,21 @@
 // Created by Limaaron on 08.09.2020.
 //
 
-#ifndef SMA_SMALLOCATOR_H
-#define SMA_SMALLOCATOR_H
+#ifndef SMA_SMA_LLOCATOR_H
+#define SMA_SMA_LLOCATOR_H
 
 #include "smalib.h"
 #include "datatypes.h"
 
-MEMORY  sma_Allocate(dsize size);
-MEMORY  sma_Realloc(MEMORY mem, dsize size);
-void    sma_Free(MEMORY mem);
+MEMORY  SMA_Allocate( dsize size );
+MEMORY  SMA_Realloc( MEMORY mem, dsize size );
+void    SMA_Free( MEMORY mem );
 
-dsize   sma_GetGlobalAllocated();
-dsize   sma_GetAllocated(MEMORY mem);
+dsize   SMA_GetGlobalAllocated();
+dsize   SMA_GetAllocated( MEMORY mem );
 
-dsize   sma_GetOffset(MEMORY mem);
-void    sma_SetOffset(MEMORY mem,  dsize offset);
-void    sma_MoveOffset(MEMORY mem, dsize size);
+dsize   SMA_GetOffset( MEMORY mem );
+void    SMA_SetOffset( MEMORY mem,  dsize offset );
+void    SMA_MoveOffset( MEMORY mem, dsize size );
 
-#endif //SMA_SMALLOCATOR_H
+#endif // SMA_SMA_LLOCATOR_H
