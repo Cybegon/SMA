@@ -5,10 +5,10 @@
 
 #ifdef __cplusplus
 #   include <cstdio>
-#   define POINTER_CAST(TYPE, POINTER) reinterpret_cast<TYPE>(POINTER)
+#   define POINTER_CAST(TYPE, POINTER) ( reinterpret_cast<TYPE>(POINTER) )
 #else
 #   include <stdio.h>
-#   define POINTER_CAST(TYPE, POINTER) (TYPE) POINTER
+#   define POINTER_CAST(TYPE, POINTER) ( (TYPE) POINTER )
 #endif
 
 #define SMA_PRINT(...) printf(__VA_ARGS__)

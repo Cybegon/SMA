@@ -8,9 +8,9 @@
 // If the build system not defined macros
 // we try to get them using pre-processor methods
 #if !defined(ARCH_64BITS) && !defined(ARCH_32BITS)
-#   if defined(__amd64__) || __SIZEOF_POINTER__ == 8    // 64 bits
+#   if defined(__amd64__) || defined(_WIN64) || __SIZEOF_POINTER__ == 8    // 64 bits
 #       define ARCH_64BITS
-#   elif defined(__x86_64__) || __SIZEOF_POINTER__ == 4 // 32 bits
+#   elif defined(__x86_64__) || defined(_WIN32) || __SIZEOF_POINTER__ == 4 // 32 bits
 #       define ARCH_32BITS
 #   else
 #       error Unsupported architecture
