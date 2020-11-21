@@ -8,6 +8,14 @@
 #include "smalib.h"
 #include "datatypes.h"
 
+typedef enum SMA_ErrorType
+{
+    smaNotInit      = 0x01,
+    failAlloc       = 0x02,
+    failReAlloc     = 0x04,
+    failOutOfMem    = 0x08
+} SMA_ErrorType;
+
 MEMORY  SMA_Alloc( dsize size );
 MEMORY  SMA_ReAlloc( MEMORY mem, dsize size );
 void    SMA_Free( MEMORY mem );
