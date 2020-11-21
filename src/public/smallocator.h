@@ -8,8 +8,8 @@
 #include "smalib.h"
 #include "datatypes.h"
 
-MEMORY  SMA_Allocate( dsize size );
-MEMORY  SMA_Realloc( MEMORY mem, dsize size );
+MEMORY  SMA_Alloc( dsize size );
+MEMORY  SMA_ReAlloc( MEMORY mem, dsize size );
 void    SMA_Free( MEMORY mem );
 
 dsize   SMA_GetGlobalAllocated();
