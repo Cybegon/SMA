@@ -14,7 +14,7 @@
 
 static dsize m_uiAllocated  = 0;
 
-static duint *error = NULL;
+static duint *errorPtr = NULL;
 
 static AllocFunc    allocMem    = NULL;
 static ReAllocFunc  reAllocMem  = NULL;
@@ -40,16 +40,16 @@ void SMA_Error( SMA_ErrorType errorType )
             break;
     }
 #endif
-    *error |= errorType;
+    *errorPtr |= errorType;
 }
 
 void SMA_InitDefault( duint *err )
 {
-    error = err;
+    errorPtr = err;
 
     allocMem    = malloc;
     reAllocMem  = realloc;
-    freeMem     = freeMem;
+    freeMem     = free;
 }
 
 void SMA_Init( duint *err,
@@ -57,7 +57,7 @@ void SMA_Init( duint *err,
             ReAllocFunc reAllocator,
             FreeFunc    free )
 {
-    error = err;
+    errorPtr = err;
 
     allocMem    = allocator;
     reAllocMem  = reAllocator;
