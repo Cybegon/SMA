@@ -75,7 +75,11 @@ typedef unsigned long long   	duint64;   // 64 bit unsigned
 
 typedef unsigned char           dBYTE;
 #ifdef ARCH_64BITS
+# ifdef __APPLE__
+typedef dulong				dsize;
+# else
 typedef duint64          		dsize;
+# endif
 #elif ARCH_32BITS
 typedef duint32          		dsize;
 #else
