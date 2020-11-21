@@ -8,6 +8,10 @@
 #include "smalib.h"
 #include "datatypes.h"
 
+typedef MEMORY (*AllocFunc)( dsize size );
+typedef MEMORY (*ReAllocFunc)( MEMORY mem, dsize size );
+typedef void   (*FreeFunc)( MEMORY mem );
+
 typedef enum SMA_ErrorType
 {
     smaNotInit      = 0x01,
@@ -15,6 +19,12 @@ typedef enum SMA_ErrorType
     failReAlloc     = 0x04,
     failOutOfMem    = 0x08
 } SMA_ErrorType;
+
+void    SMA_InitDefault( duint *err );
+void    SMA_Init(duint *err,
+              AllocFunc   allocator,
+              ReAllocFunc reAllocator,
+              FreeFunc    free );
 
 MEMORY  SMA_Alloc( dsize size );
 MEMORY  SMA_ReAlloc( MEMORY mem, dsize size );

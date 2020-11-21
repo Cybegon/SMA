@@ -16,6 +16,10 @@ static dsize m_uiAllocated  = 0;
 
 static duint *error = NULL;
 
+static AllocFunc    allocMem    = NULL;
+static ReAllocFunc  reAllocMem  = NULL;
+static FreeFunc     freeMem     = NULL;
+
 void SMA_Error( SMA_ErrorType errorType )
 {
 #ifdef SMA_MESSAGES
@@ -39,10 +43,34 @@ void SMA_Error( SMA_ErrorType errorType )
     *error |= errorType;
 }
 
+void SMA_InitDefault( duint *err )
+{
+    error = err;
+
+    allocMem    = malloc;
+    reAllocMem  = realloc;
+    freeMem     = freeMem;
+}
+
+void SMA_Init( duint *err,
+            AllocFunc   allocator,
+            ReAllocFunc reAllocator,
+            FreeFunc    free )
+{
+    error = err;
+
+    allocMem    = allocator;
+    reAllocMem  = reAllocator;
+    freeMem     = free;
+}
+
 MEMORY SMA_Allocate( dsize size )
 {
+    if (allocMem == NULL)
+        SMA_Error( smaNotInit );
+
     dsize totalSize = size + sizeof( MemoryHeader );
-    MEMORY mem = malloc( totalSize );
+    MEMORY mem = allocMem( totalSize );
 
     if ( mem == NULL )
         SMA_Error( failAlloc );
@@ -64,6 +92,9 @@ MEMORY SMA_Allocate( dsize size )
 
 MEMORY SMA_ReAlloc( MEMORY mem, dsize size )
 {
+    if (reAllocMem == NULL)
+        SMA_Error( smaNotInit );
+
     mem = moveLeft( mem, sizeof( MemoryHeader ) );
 
     MemoryHeader* memHeader = POINTER_CAST( MemoryHeader*, mem );
@@ -71,7 +102,7 @@ MEMORY SMA_ReAlloc( MEMORY mem, dsize size )
     memHeader->size     = size;
     m_uiAllocated       += size;
 
-    mem = realloc( mem, size );
+    mem = reAllocMem( mem, size );
     if ( mem == NULL )
         SMA_Error( failReAlloc );
 
@@ -80,12 +111,15 @@ MEMORY SMA_ReAlloc( MEMORY mem, dsize size )
 
 void SMA_Free( MEMORY mem )
 {
+    if ( freeMem == NULL )
+        SMA_Error( smaNotInit );
+
     mem = moveLeft( mem, sizeof( MemoryHeader ) );
 
     MemoryHeader *memHeader = POINTER_CAST( MemoryHeader*, mem );
     m_uiAllocated -= memHeader->size + sizeof( MemoryHeader );
 
-    free( mem );
+    freeMem( mem );
 }
 
 dsize SMA_GetGlobalAllocated()
