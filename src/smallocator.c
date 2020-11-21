@@ -64,7 +64,7 @@ void SMA_Init( duint *err,
     freeMem     = free;
 }
 
-MEMORY SMA_Allocate( dsize size )
+MEMORY SMA_Alloc( dsize size )
 {
     if (allocMem == NULL)
         SMA_Error( smaNotInit );
