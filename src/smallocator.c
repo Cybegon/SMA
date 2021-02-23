@@ -102,7 +102,7 @@ MEMORY SMA_ReAlloc( MEMORY mem, dsize size )
     memHeader->size     = size;
     m_uiAllocated       += size;
 
-    mem = reAllocMem( mem, size );
+    mem = reAllocMem( mem, size + sizeof(MemoryHeader) );
     if ( mem == NULL )
         SMA_Error( failReAlloc );
 
