@@ -102,7 +102,7 @@ MEMORY SMA_ReAlloc( MEMORY mem, dsize size )
     memHeader->size     = size;
     m_uiAllocated       += size;
 
-    mem = reAllocMem( mem, size + sizeof(MemoryHeader) );
+    mem = reAllocMem( mem, size + sizeof( MemoryHeader ) );
     if ( mem == NULL )
         SMA_Error( failReAlloc );
 
@@ -154,17 +154,6 @@ void SMA_SetOffset( MEMORY mem, dsize _offset )
     memHeader->offset = _offset;
 }
 
-void SMA_MoveRightOffset( MEMORY mem, dsize size )
-{
-    mem = moveLeft( mem, sizeof( MemoryHeader ) );
-    MemoryHeader *memHeader = POINTER_CAST( MemoryHeader*, mem );
-
-    if ( ( memHeader->offset + size ) > memHeader->size )
-        SMA_Error( failOutOfMem );
-
-    memHeader->offset += size;
-}
-
 void SMA_MoveLeftOffset( MEMORY mem, dsize size )
 {
     mem = moveLeft( mem, sizeof( MemoryHeader ) );
@@ -174,4 +163,15 @@ void SMA_MoveLeftOffset( MEMORY mem, dsize size )
         memHeader->offset = 0;
     else
         memHeader->offset -= size;
+}
+
+void SMA_MoveRightOffset( MEMORY mem, dsize size )
+{
+    mem = moveLeft( mem, sizeof( MemoryHeader ) );
+    MemoryHeader *memHeader = POINTER_CAST( MemoryHeader*, mem );
+
+    if ( ( memHeader->offset + size ) > memHeader->size )
+        SMA_Error( failOutOfMem );
+
+    memHeader->offset += size;
 }

@@ -35,6 +35,7 @@ dsize   SMA_GetAllocated( MEMORY mem );
 
 dsize   SMA_GetOffset( MEMORY mem );
 void    SMA_SetOffset( MEMORY mem,  dsize offset );
-void    SMA_MoveOffset( MEMORY mem, dsize size );
+void    SMA_MoveLeftOffset( MEMORY mem, dsize size );
+void    SMA_MoveRightOffset( MEMORY mem, dsize size );
 
 #endif // SMA_SMA_LLOCATOR_H
